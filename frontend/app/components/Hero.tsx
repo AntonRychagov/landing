@@ -37,6 +37,14 @@ export default function Hero({ personal }: HeroProps): JSX.Element {
       : null;
   }, [personal.profileImages]);
 
+  const basePath = typeof process.env.NEXT_PUBLIC_BASE_PATH === 'string' ? process.env.NEXT_PUBLIC_BASE_PATH : '';
+  const profileImageSrc = useMemo(() => {
+    const src = personal.profileImage;
+    if (!src) return '';
+    if (src.startsWith('http')) return src;
+    return basePath + src;
+  }, [personal.profileImage, basePath]);
+
   return (
     <section
       className="relative flex items-center justify-center overflow-hidden"
@@ -137,7 +145,7 @@ export default function Hero({ personal }: HeroProps): JSX.Element {
             }}
           >
             <Image
-              src={personal.profileImage}
+              src={profileImageSrc}
               alt={`${personal.name} - портрет`}
               fill
               className="object-cover"
