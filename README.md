@@ -1,4 +1,4 @@
-# Project
+# Landing
 
 A full-stack application with TypeScript backend and Next.js frontend.
 
