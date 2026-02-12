@@ -1,0 +1,87 @@
+---
+description: JavaScript/TypeScript development standards and conventions
+alwaysApply: true
+---
+
+# JavaScript/TypeScript Development Rules
+
+## Environment
+- Use `npm` or `pnpm` for dependency management
+- Always use TypeScript for type safety
+- Use `tsx` or `ts-node` for running TypeScript files directly
+
+## Type Safety
+- All functions must have complete type annotations (parameters and return types)
+- Use strict TypeScript configuration (`strict: true` in tsconfig.json)
+- Prefer `string[]` over `Array<string>` (modern syntax)
+- Use `X | null` or `X | undefined` instead of `any`
+- No `any` types unless absolutely necessary (and document why)
+- Use `unknown` instead of `any` when type is truly unknown
+
+## Runtime Type Checking
+- Use `zod` for runtime validation and type inference
+- Validate all API inputs and outputs
+- Example pattern:
+  ```typescript
+  import { z } from 'zod';
+  
+  const UserSchema = z.object({
+    name: z.string(),
+    age: z.number().int().positive(),
+  });
+  
+  type User = z.infer<typeof UserSchema>;
+  
+  function createUser(data: unknown): User {
+    return UserSchema.parse(data);
+  }
+  ```
+
+## Project Setup
+When creating a new project:
+
+```bash
+npm init -y
+npm install express zod
+npm install -D typescript @types/node @types/express tsx
+npx tsc --init
+```
+
+## TypeScript Configuration
+Include these settings in `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}
+```
+
+## File Template
+Every TypeScript file should have proper imports and type annotations:
+
+```typescript
+import type { Request, Response } from 'express';
+import { z } from 'zod';
+
+function myFunction(name: string, count: number): string[] {
+  // Implementation
+}
+```
+
+## Code Quality
+- Use ESLint with TypeScript rules
+- Use Prettier for code formatting
+- Run type checking before commits: `tsc --noEmit`
