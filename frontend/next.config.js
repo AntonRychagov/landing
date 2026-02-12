@@ -3,7 +3,11 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  output: 'export',
+  basePath: process.env.NODE_ENV === 'production' ? '/landing' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/landing' : '',
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
