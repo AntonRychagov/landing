@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === 'production' || process.env.GITHUB_PAGES === 'true';
+const basePath = isProduction ? '/landing' : '';
+
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
   output: 'export',
-  basePath: process.env.NODE_ENV === 'production' ? '/landing' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/landing' : '',
+  basePath: basePath,
+  assetPrefix: basePath,
   images: {
     unoptimized: true,
     remotePatterns: [
